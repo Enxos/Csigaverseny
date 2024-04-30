@@ -26,7 +26,7 @@ public class Csigaverseny {
         System.out.println("A gyoztes " + winner.getColor() + "!");
     
         // Ellenorzes, hogy a felhasznalo nyert-e
-        if (winner.getColor().equals(bet)) {
+        if (winner.getColor().toUpperCase().equals(bet.toUpperCase())) {
             System.out.println("Gratulalok! Helyesen tippeltel!");
         } else {
             System.out.println("Sajnaljuk, nem talaltad el a nyertest. Tobb szerencset legkozelebb!");
