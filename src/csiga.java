@@ -3,12 +3,15 @@ import java.util.Random;
 class Snail {
     private String color;
     private int distance;
-    private boolean gotBoost;
+    private int distanceThisRound;
+    private boolean boosted;
+    private Random random = new Random();
 
     public Snail(String color) {
         this.color = color;
         this.distance = 0;
-        this.gotBoost = false;
+        this.distanceThisRound = 0;
+        this.boosted = false;
     }
 
     public String getColor() {
@@ -19,22 +22,29 @@ class Snail {
         return distance;
     }
 
-    public void setDistance(int distance) {
-        this.distance = distance;
+    public void move(int distance) {
+        this.distance += distance;
+        this.distanceThisRound = distance;
     }
 
-    public boolean getGotBoost() {
-        return gotBoost;
+    public void run() {
+        int distance = random.nextInt(3) + 1; // generates a random distance between 1 and 3
+        move(distance);
     }
 
-    public void setGotBoost(boolean gotBoost) {
-        this.gotBoost = gotBoost;
+    public void boost() {
+        if (!boosted) {
+            this.distance += this.distanceThisRound;
+            this.boosted = true;
+        }
     }
-}
 
-class Chance {
-    public static boolean twentyPercent() {
-        Random random = new Random();
-        return random.nextInt(100) < 20; // 0 to 99, less than 20 is true
+    public void resetBoost() {
+        this.boosted = false;
+    }
+
+    @Override
+    public String toString() {
+        return color + " snail: " + distance + " units";
     }
 }

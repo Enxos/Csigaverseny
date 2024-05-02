@@ -5,9 +5,9 @@ public class Csigaverseny {
 
     public static void main(String[] args) {
         // Csiguszok letrehozasa
-        Snail redSnail = new Snail("Red");
-        Snail greenSnail = new Snail("Green");
-        Snail blueSnail = new Snail("Blue");
+        Snail pirosSnail = new Snail("Piros");
+        Snail zoldSnail = new Snail("Zold");
+        Snail kekSnail = new Snail("Kek");
 
         // Udvozlo uzenet es tipp kerese
         System.out.println("Udv a Csigaversenyben!");
@@ -16,12 +16,12 @@ public class Csigaverseny {
         // A verseny inditasa
         for (int round = 1; round <= 5; round++) {
             System.out.println("Körszámláló: " + round);
-            raceRound(redSnail, greenSnail, blueSnail);
-            printPositions(redSnail, greenSnail, blueSnail);
+            runRaceRound(pirosSnail, zoldSnail, kekSnail);
+            printPositions(pirosSnail, zoldSnail, kekSnail);
         }
 
         // Gyoztes meghatarozasa
-        Snail winner = getWinner(redSnail, greenSnail, blueSnail);
+        Snail winner = getWinner(pirosSnail, zoldSnail, kekSnail);
         System.out.println("A gyoztes " + winner.getColor() + "!");
 
         // Ellenorzes, hogy a felhasznalo nyert-e?
@@ -30,6 +30,37 @@ public class Csigaverseny {
         } else {
             System.out.println("Sajnaljuk, nem talaltad el a nyertest. Tobb szerencset legkozelebb!");
         }
+    }
+
+    public static void runRaceRound(Snail pirosSnail, Snail zoldSnail, Snail kekSnail) {
+        Random random = new Random();
+        double chance = random.nextDouble();
+    
+        // Run the round for each snail
+        pirosSnail.run();
+        zoldSnail.run();
+        kekSnail.run();
+    
+        // 20% chance for a speed boost for one snail
+        if (chance < 0.2) {
+            int snailBoost = random.nextInt(3);
+            switch (snailBoost) {
+                case 0:
+                    pirosSnail.boost();
+                    break;
+                case 1:
+                    zoldSnail.boost();
+                    break;
+                case 2:
+                    kekSnail.boost();
+                    break;
+            }
+        }
+    
+        // Reset the boost flag for each snail
+        pirosSnail.resetBoost();
+        zoldSnail.resetBoost();
+        kekSnail.resetBoost();
     }
 
     public static int getPlayerBet() {
@@ -46,16 +77,17 @@ public class Csigaverseny {
     public static String getBetColor(int bet) {
         switch (bet) {
             case 1:
-                return "Red";
+                return "Piros";
             case 2:
-                return "Green";
+                return "Zold";
             case 3:
-                return "Blue";
+                return "Kek";
             default:
-                return "Invalid";
+                return "Ervenytelen tipp!";
         }
     }
 
+    /*
     public static void raceRound(Snail snail1, Snail snail2, Snail snail3) {
         moveSnail(snail1);
         moveSnail(snail2);
@@ -80,12 +112,12 @@ public class Csigaverseny {
         } else {
             return baseDistance;
         }
-    }
+    }*/
 
     public static void printPositions(Snail snail1, Snail snail2, Snail snail3) {
-        System.out.println("Red: " + snail1.getDistance());
-        System.out.println("Green: " + snail2.getDistance());
-        System.out.println("Blue: " + snail3.getDistance());
+        System.out.println("Piros csiga eddigi távolsága: " + snail1.getDistance());
+        System.out.println("Zöld csiga eddigi távolsága: " + snail2.getDistance());
+        System.out.println("Kek csiga eddigi távolsága: " + snail3.getDistance());
     }
 
     public static Snail getWinner(Snail snail1, Snail snail2, Snail snail3) {
