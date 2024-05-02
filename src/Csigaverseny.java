@@ -2,81 +2,100 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Csigaverseny {
-    public static final int NUM_ROUNDS = 5;
-    public static final double SPEED_BOOST_CHANCE = 0.2;
 
     public static void main(String[] args) {
         // Csiguszok letrehozasa
-        Snail pirosSnail = new Snail("Piros");
-        Snail zoldSnail = new Snail("Zold");
-        Snail kekSnail = new Snail("Kek");
-    
+        Snail redSnail = new Snail("Red");
+        Snail greenSnail = new Snail("Green");
+        Snail blueSnail = new Snail("Blue");
+
         // Udvozlo uzenet es tipp kerese
         System.out.println("Udv a Csigaversenyben!");
-        String bet = placeBet();
-        
-        // A verseny lefuttatasa
-        for (int round = 1; round <= NUM_ROUNDS; round++) {
-            System.out.println("Round " + round);
-            runRaceRound(pirosSnail, zoldSnail, kekSnail);
+        int playerBet = getPlayerBet();
+
+        // A verseny inditasa
+        for (int round = 1; round <= 5; round++) {
+            System.out.println("Körszámláló: " + round);
+            raceRound(redSnail, greenSnail, blueSnail);
+            printPositions(redSnail, greenSnail, blueSnail);
         }
-    
+
         // Gyoztes meghatarozasa
-        Snail winner = determineWinner(pirosSnail, zoldSnail, kekSnail);
+        Snail winner = getWinner(redSnail, greenSnail, blueSnail);
         System.out.println("A gyoztes " + winner.getColor() + "!");
-    
-        // Ellenorzes, hogy a felhasznalo nyert-e
-        if (winner.getColor().toUpperCase().equals(bet.toUpperCase())) {
+
+        // Ellenorzes, hogy a felhasznalo nyert-e?
+        if (winner.getColor().equals(getBetColor(playerBet))) {
             System.out.println("Gratulalok! Helyesen tippeltel!");
         } else {
             System.out.println("Sajnaljuk, nem talaltad el a nyertest. Tobb szerencset legkozelebb!");
         }
     }
 
-    public static String placeBet() {
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println("Tippelj szerinted melyik csiga fog neyerni! A Piros, a Zold vagy a Kek: ");
-            String bet = scanner.nextLine();
-            return bet.toUpperCase();
+    public static int getPlayerBet() {
+        System.out.println("Tippelj szerinted melyik csiga fog nyerni!\n"); // Sortores
+        System.out.println("1: Piros csiga\n");
+        System.out.println("2: Zöld csiga\n");
+        System.out.println("3: Kék csiga\n");
+        Scanner scanner = new Scanner(System.in);
+        int playerBet = scanner.nextInt();
+        scanner.close(); // Close the scanner
+        return playerBet;
+    }
+
+    public static String getBetColor(int bet) {
+        switch (bet) {
+            case 1:
+                return "Red";
+            case 2:
+                return "Green";
+            case 3:
+                return "Blue";
+            default:
+                return "Invalid";
         }
     }
 
-    public static void runRaceRound(Snail pirosSnail, Snail zoldSnail, Snail kekSnail) {
-        moveSnail(pirosSnail);
-        moveSnail(zoldSnail);
-        moveSnail(kekSnail);
-
-        System.out.println("Current distances:");
-        System.out.println(pirosSnail);
-        System.out.println(zoldSnail);
-        System.out.println(kekSnail);
+    public static void raceRound(Snail snail1, Snail snail2, Snail snail3) {
+        moveSnail(snail1);
+        moveSnail(snail2);
+        moveSnail(snail3);
     }
 
     public static void moveSnail(Snail snail) {
-        int distance = getDistance();
-        if (hasSpeedBoost()) {
-        distance *= 2;
+        int distance = getDistance(snail);
+        if (snail.getGotBoost()) {
+            distance *= 2;
+            snail.setGotBoost(false);
         }
-        snail.move(distance);
+        snail.setDistance(snail.getDistance() + distance);
     }
 
-    public static int getDistance() {
+    public static int getDistance(Snail snail) {
         Random random = new Random();
-        return random.nextInt(10) + 1; // Distance between 1 and 10
-    }
-
-    public static boolean hasSpeedBoost() {
-        Random random = new Random();
-        return random.nextDouble() < SPEED_BOOST_CHANCE;
-    }
-
-    public static Snail determineWinner(Snail pirosSnail, Snail zoldSnail, Snail kekSnail) {
-        if (pirosSnail.getDistance() > zoldSnail.getDistance() && pirosSnail.getDistance() > kekSnail.getDistance()) {
-        return pirosSnail;
-        } else if (zoldSnail.getDistance() > pirosSnail.getDistance() && zoldSnail.getDistance() > kekSnail.getDistance()) {
-        return zoldSnail;
+        int baseDistance = random.nextInt(4); // 0 to 3
+        if (Chance.twentyPercent()) {
+            snail.setGotBoost(true);
+            return baseDistance * 2;
         } else {
-        return kekSnail;
+            return baseDistance;
         }
+    }
+
+    public static void printPositions(Snail snail1, Snail snail2, Snail snail3) {
+        System.out.println("Red: " + snail1.getDistance());
+        System.out.println("Green: " + snail2.getDistance());
+        System.out.println("Blue: " + snail3.getDistance());
+    }
+
+    public static Snail getWinner(Snail snail1, Snail snail2, Snail snail3) {
+        Snail winner = snail1;
+        if (snail2.getDistance() > winner.getDistance()) {
+            winner = snail2;
+        }
+        if (snail3.getDistance() > winner.getDistance()) {
+            winner = snail3;
+        }
+        return winner;
     }
 }
