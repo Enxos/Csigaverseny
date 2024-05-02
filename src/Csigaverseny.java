@@ -53,15 +53,15 @@ public class Csigaverseny {
             switch (snailBoost) {
                 case 0:
                     pirosSnail.boost();
-                    System.out.println("Piros csigusz begyorsított " + pirosSnail.getDistanceThisRound() + " dupláját ugrotta!");
+                    System.out.println("Piros csigusz begyorsított a(z) " + pirosSnail.getDistanceThisRound() + " dupláját ugrotta!");
                     break;
                 case 1:
                     zoldSnail.boost();
-                    System.out.println("Zöld csigusz begyorsított " + zoldSnail.getDistanceThisRound() + " dupláját ugrotta!");
+                    System.out.println("Zöld csigusz begyorsított a(z) " + zoldSnail.getDistanceThisRound() + " dupláját ugrotta!");
                     break;
                 case 2:
                     kekSnail.boost();
-                    System.out.println("Kék csigusz begyorsított " + kekSnail.getDistanceThisRound() + " dupláját ugrotta!");
+                    System.out.println("Kék csigusz begyorsított a(z) " + kekSnail.getDistanceThisRound() + " dupláját ugrotta!");
                     break;
             }
         }
