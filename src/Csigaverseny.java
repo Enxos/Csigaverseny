@@ -42,12 +42,12 @@ public class Csigaverseny {
         Random random = new Random();
         double chance = random.nextDouble();
     
-        // Run the round for each snail
+        // A kör lépésének a lejátszása
         pirosSnail.run();
         zoldSnail.run();
         kekSnail.run();
     
-        // 20% chance for a speed boost for one snail
+        // 20% eséllyel a csigák begyorsítanak
         if (chance < 0.2) {
             int snailBoost = random.nextInt(3);
             switch (snailBoost) {
@@ -66,20 +66,20 @@ public class Csigaverseny {
             }
         }
     
-        // Reset the boost flag for each snail
+        // A Boost jelzés vissza állítása a következő körre.
         pirosSnail.resetBoost();
         zoldSnail.resetBoost();
         kekSnail.resetBoost();
     }
 
     public static int getPlayerBet() {
-        System.out.println("Tippelj szerinted melyik csiga fog nyerni!\n"); // Sortores
+        System.out.println("Tippelj szerinted melyik csiga fog nyerni!\n"); // Sortöres
         System.out.println("1: Piros csiga\n");
         System.out.println("2: Zöld csiga\n");
         System.out.println("3: Kék csiga\n");
         Scanner scanner = new Scanner(System.in);
         int playerBet = scanner.nextInt();
-        scanner.close(); // Close the scanner
+        scanner.close(); // Close the scanner memoria leak-ek miatt?
         return playerBet;
     }
 
@@ -95,33 +95,6 @@ public class Csigaverseny {
                 return "Ervenytelen tipp!";
         }
     }
-
-    /*
-    public static void raceRound(Snail snail1, Snail snail2, Snail snail3) {
-        moveSnail(snail1);
-        moveSnail(snail2);
-        moveSnail(snail3);
-    }
-
-    public static void moveSnail(Snail snail) {
-        int distance = getDistance(snail);
-        if (snail.getGotBoost()) {
-            distance *= 2;
-            snail.setGotBoost(false);
-        }
-        snail.setDistance(snail.getDistance() + distance);
-    }
-
-    public static int getDistance(Snail snail) {
-        Random random = new Random();
-        int baseDistance = random.nextInt(4); // 0 to 3
-        if (Chance.twentyPercent()) {
-            snail.setGotBoost(true);
-            return baseDistance * 2;
-        } else {
-            return baseDistance;
-        }
-    }*/
 
     public static void printPositions(Snail snail1, Snail snail2, Snail snail3) {
         System.out.println("Piros csiga eddigi távolsága: " + snail1.getDistance());

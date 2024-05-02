@@ -28,7 +28,7 @@ class Snail {
     }
 
     public void run() {
-        int distance = random.nextInt(3) + 1; // generates a random distance between 1 and 3
+        int distance = random.nextInt(3) + 1; // Véletlenszerű távolságérték generálása 1 és 3 között.
         move(distance);
     }
 
@@ -44,7 +44,7 @@ class Snail {
     }
     
     public int getDistanceThisRound() {
-        return distanceThisRound;
+        return distanceThisRound; // A csiga által megtett normál távolság a körben a boostolás esetére mint notification.
     }
 
     @Override
