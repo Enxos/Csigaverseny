@@ -10,7 +10,7 @@ public class Csigaverseny {
         Snail kekSnail = new Snail("Kek");
 
         // Udvozlo uzenet es tipp kerese
-        System.out.println("Udv a Csigaversenyben!");
+        System.out.println("Üdv a Csigaversenyben!");
         int playerBet = getPlayerBet();
 
         // A verseny inditasa
@@ -22,13 +22,19 @@ public class Csigaverseny {
 
         // Gyoztes meghatarozasa
         Snail winner = getWinner(pirosSnail, zoldSnail, kekSnail);
-        System.out.println("A gyoztes " + winner.getColor() + "!");
+        String winnerColor = winner.getColor();
+        if (winnerColor.equals("Zold")) {
+            winnerColor = "Zöld";
+        } else if (winnerColor.equals("Kek")) {
+            winnerColor = "Kék";
+        }
+        System.out.println("A gyöztes " + winnerColor + "!");
 
         // Ellenorzes, hogy a felhasznalo nyert-e?
         if (winner.getColor().equals(getBetColor(playerBet))) {
             System.out.println("Gratulalok! Helyesen tippeltel!");
         } else {
-            System.out.println("Sajnaljuk, nem talaltad el a nyertest. Tobb szerencset legkozelebb!");
+            System.out.println("Sajnáljuk, nem találtad el a nyertest. Több szerencsét legközelebb!");
         }
     }
 
@@ -47,12 +53,15 @@ public class Csigaverseny {
             switch (snailBoost) {
                 case 0:
                     pirosSnail.boost();
+                    System.out.println("Piros csigusz begyorsított " + pirosSnail.getDistanceThisRound() + " dupláját ugrotta!");
                     break;
                 case 1:
                     zoldSnail.boost();
+                    System.out.println("Zöld csigusz begyorsított " + zoldSnail.getDistanceThisRound() + " dupláját ugrotta!");
                     break;
                 case 2:
                     kekSnail.boost();
+                    System.out.println("Kék csigusz begyorsított " + kekSnail.getDistanceThisRound() + " dupláját ugrotta!");
                     break;
             }
         }

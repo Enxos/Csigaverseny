@@ -42,6 +42,10 @@ class Snail {
     public void resetBoost() {
         this.boosted = false;
     }
+    
+    public int getDistanceThisRound() {
+        return distanceThisRound;
+    }
 
     @Override
     public String toString() {
